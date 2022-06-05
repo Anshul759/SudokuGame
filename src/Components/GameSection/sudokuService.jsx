@@ -1,7 +1,5 @@
 export const EMPTY_GRID = () =>
   new Array(9).fill(null).map(() => new Array(9).fill(0));
-export const EMPTY_START_GRID = () =>
-  new Array(9).fill(null).map(() => new Array(9));
 
 class SudokuService {
   //(Store every step of the solving process)

@@ -1,8 +1,8 @@
 let watch = () => {
     const stopwatch = document.querySelector("#sudoku-stopwatch");
     const timestamp = document.querySelector("#sudoku-timestamp");
-    const startstop = document.querySelector("#sudoku-dropdown-basic");
-    const stopstart = document.querySelector("#sudokusubmitbutton");
+    const startstop = document.querySelectorAll("#sudoku-dropdown-basic");
+    const stopstart = document.querySelectorAll("#sudokusubmitbutton , #sudokuautosolvebutton , #clearbttn");
     let currentTime = 0;
     let timer;
     function startTimer() {
@@ -30,8 +30,14 @@ let watch = () => {
         stopTimer();
         resetTimer();
     }
-    startstop.addEventListener("click", startTimer);
-    stopstart.addEventListener("click", stopTimer);
+    for(let i=0;i<startstop.length;i++)
+    {
+        startstop[i].addEventListener("change", startTimer);
+    }
+    for(let i=0;i<stopstart.length;i++)
+    {
+        stopstart[i].addEventListener("click", stopTimer);
+    }
 }
 
 export {watch};

@@ -9,7 +9,7 @@ import {
   Row,
 } from "react-bootstrap";
 import Board from "./Board";
-import sudokuService, { EMPTY_GRID, EMPTY_START_GRID } from "./sudokuService";
+import sudokuService, { EMPTY_GRID } from "./sudokuService";
 import Generator from "./sudokuGenerator";
 import "./gamesection.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -20,7 +20,7 @@ import "../StopWatch/stopwatch.css";
 
 export default function GameSection() {
   const [grid, setGrid] = useState(EMPTY_GRID);
-  const [startGrid, setStartGrid] = useState(EMPTY_START_GRID);
+  const [startGrid, setStartGrid] = useState(EMPTY_GRID);
   const [isGridDisabled, setIsGridDisabled] = useState(false);
   const [isShowProcessChecked, setIsShowProcessChecked] = useState(true);
   const [isSolved, setIsSolved] = useState(false);
@@ -51,7 +51,7 @@ export default function GameSection() {
   //(Generate new board with the given difficulty)
   const handleSelect = (e) => {
     reset();
-    var randomGrid = Generator.generate(e);
+    var randomGrid = Generator.generate(e.target.value);
     setGrid(randomGrid);
     setStartGrid(randomGrid);
   };
@@ -95,7 +95,7 @@ export default function GameSection() {
   const reset = () => {
     ReactDOM.render("", document.getElementById("sudoku-result"));
     setGrid(EMPTY_GRID);
-    setStartGrid(EMPTY_START_GRID);
+    setStartGrid(EMPTY_GRID);
     setIsGridDisabled(false);
     setIsSolved(false);
     setIsSolving(false);
@@ -184,7 +184,28 @@ export default function GameSection() {
           />
         </Col>
         <Col sm={3} className="mb-5" style={{paddingTop:"10%"}}>
-          <DropdownButton
+        <select
+            disabled={isSolving}
+            id="sudoku-dropdown-basic"
+            value="Generate Board"
+            onChange={handleSelect}
+          >
+            <option value="" selected className="sudoku-dropdown-options" >Generate</option>
+            <option value="0" className="sudoku-dropdown-options">
+              Easy
+            </option>
+            <option value="1" className="sudoku-dropdown-options">
+              Medium
+            </option>
+            <option value="2" className="sudoku-dropdown-options">
+              Difficult
+            </option>
+            <option value="3" className="sudoku-dropdown-options">
+              Inhuman
+            </option>
+          </select>
+
+          {/* <DropdownButton
             disabled={isSolving}
             id="sudoku-dropdown-basic"
             title="Generate Board"
@@ -202,7 +223,7 @@ export default function GameSection() {
             <Dropdown.Item eventKey="3" className="sudoku-dropdown-options">
               Inhuman
             </Dropdown.Item>
-          </DropdownButton>
+          </DropdownButton> */}
           <Button
             className="mt-3 mr-1 sudoku-gamebttn"
             id="sudokusubmitbutton"
@@ -214,6 +235,7 @@ export default function GameSection() {
           </Button>
           <Button
             className="mt-3 sudoku-gamebttn"
+            id="sudokuautosolvebutton"
             style={{ backgroundColor: "#2CB67D", border: "none" }}
             onClick={handleSolveButtonClicked}
             disabled={isSolving || isSolved}
@@ -231,6 +253,7 @@ export default function GameSection() {
           />
           <Button
             className="mt-3 mr-1 sudoku-gamebttn"
+            id="clearbttn"
             style={{ backgroundColor: "red", border: "none" }}
             disabled={isSolving}
             onClick={reset}
@@ -243,7 +266,7 @@ export default function GameSection() {
             disabled={isSolving}
             onClick={undo}
           >
-            Undo
+            Reset
           </Button>
           <Button
             className="mt-3 ml-1 sudoku-gamebttn"
